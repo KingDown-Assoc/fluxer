@@ -12,13 +12,18 @@ Re-applied automatically on every import via [`scripts/apply-fork-patches.sh`](.
 
 | Divergence | File / Setting | Why | Re-apply |
 |---|---|---|---|
-| Blacksmith runners -> GitHub-hosted | `.github/workflows/tests.yaml` | Fork has no Blacksmith; GitHub-hosted runners are free on public repos | `scripts/apply-fork-patches.sh` (idempotent sed) |
+| Blacksmith runners -> GitHub-hosted | `.github/workflows/tests.yaml`, `_build-image.yaml` | Fork has no Blacksmith; GitHub-hosted runners are free on public repos | `scripts/apply-fork-patches.sh` (idempotent sed) |
+| GHCR owner forced lowercase | `.github/workflows/_build-image.yaml` | `github.repository_owner` is `KingDown-Assoc` (uppercase); Docker refs must be lowercase | `scripts/apply-fork-patches.sh` |
 | Out-of-scope workflows disabled | UI setting (Actions tab) | Depend on the `FLUXER_CI_APP_*`/Weblate app or are upstream-specific | re-disable via UI if re-enabled |
 | Branch protection | GitHub setting | Fork governance | `scripts/setup-branch-protection.sh` |
-| Ops tooling | `scripts/`, `docs/` | Fork maintenance (not in upstream) | versioned |
+| Ops tooling | `scripts/`, `docs/`, `.github/workflows/build-self-hosted.yaml` | Fork maintenance (not in upstream) | versioned |
 
 > Workflows disabled via UI: `pr-template-honeypot`, `labeller`, `lock-closed-conversations`,
 > `i18n-source-sync`, `i18n-weblate-pr`.
+
+> Self-hosted images: dispatch `build-self-hosted` to build the 10 server images to
+> `ghcr.io/kingdown-assoc/`. Set each package public once, then point the compose at them with
+> `FLUXER_REGISTRY_OWNER=kingdown-assoc` (see `deploy/self-hosting/`).
 
 ### 1.b Ahead-of-upstream patches (temporary)
 Fixes/features landed before the official ones. Drop them once upstream ships the fix.

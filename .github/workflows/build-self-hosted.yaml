@@ -1,0 +1,71 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: build self-hosted images
+
+# Fork-only orchestrator: builds the server images used by deploy/self-hosting/docker-compose.yml
+# and pushes them to ghcr.io/kingdown-assoc/. Not present upstream.
+
+on:
+  workflow_dispatch:
+    inputs:
+      build-version:
+        description: "Explicit Fluxer CalVer build version (leave empty for automatic allocation)"
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  actions: read
+  contents: read
+  packages: write
+
+jobs:
+  api:
+    uses: ./.github/workflows/build-api.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  gateway:
+    uses: ./.github/workflows/build-gateway.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  messages:
+    uses: ./.github/workflows/build-messages.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  users:
+    uses: ./.github/workflows/build-users.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  snowflakes:
+    uses: ./.github/workflows/build-snowflakes.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  unfurl:
+    uses: ./.github/workflows/build-unfurl.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  media-proxy:
+    uses: ./.github/workflows/build-media-proxy.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  static:
+    uses: ./.github/workflows/build-static.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  admin:
+    uses: ./.github/workflows/build-admin.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
+  app-proxy:
+    uses: ./.github/workflows/build-app-proxy-self-hosted.yaml
+    with:
+      build-version: ${{ inputs.build-version }}
+    secrets: inherit
