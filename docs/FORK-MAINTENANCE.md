@@ -25,16 +25,19 @@ Fixes/features landed before the official ones. Drop them once upstream ships th
 
 | Patch | File(s) | Why | Upstream tracking | Status |
 |---|---|---|---|---|
-| _(example)_ Fix crash X | `path/...` | fixes ... | `fluxerapp/fluxer#NNNN` or "none" | `pending` / `superseded` |
+| KLIPY embed + gif error handling | `fluxer_unfurl/src/resolvers/klipy.rs`, `fluxer_api/src/api/gif/*`, `NatsUnfurlerService.ts` | Resolve KLIPY embeds via the KLIPY API (direct fetch blocked by Cloudflare); return 503 instead of 500 on gif provider failure | none | `pending` |
 
 ## 2. Commit convention (ahead-of-upstream patches)
 
 - One fix = one commit (atomic), easy to `revert` once superseded.
-- Required trailer in the commit message:
+- Optional trailer in the commit message (no upstream reference):
   ```
-  Upstream-Status: pending (fluxerapp/fluxer#NNNN)
+  Upstream-Status: pending
   ```
-  `pending (none)` if no upstream ticket; `superseded (...)` once the official fix lands.
+  becomes `superseded` once the official fix lands.
+- Never put an `owner/repo#N`-style upstream reference (or an upstream issue URL) in commit messages,
+  PR titles/descriptions, or comments: GitHub creates a cross-reference notification on the upstream
+  project. Track upstream links in the ledger only, wrapped in backticks so they stay inert.
 - List carried patches: `git log --grep "Upstream-Status: pending" --oneline`.
 
 ## 3. Import runbook (cadence: weekly or per upstream release)
