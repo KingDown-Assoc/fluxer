@@ -1,0 +1,28 @@
+# LiveKit config for a Fluxer voice node. Edit the REPLACE_* values and the instance domain.
+port: 7880
+log_level: info
+
+rtc:
+  tcp_port: 7881
+  udp_port: 7882
+  use_external_ip: true
+  stun_servers:
+    - stun.l.google.com:19302
+    - stun1.l.google.com:19302
+
+# Built-in TURN over UDP (3478) covers most NATs. For locked-down networks that only allow
+# 443, also enable TLS TURN (tls_port: 5349) with certs; see README.md.
+turn:
+  enabled: true
+  udp_port: 3478
+
+# This node's own credentials. The SAME api_key/api_secret must be registered on the instance
+# via the admin API (servers/create). api_key must also match webhook.api_key below.
+keys:
+  REPLACE_API_KEY: REPLACE_API_SECRET
+
+# Where this node reports voice events. Point it at the instance public API.
+webhook:
+  api_key: REPLACE_API_KEY
+  urls:
+    - https://REPLACE_INSTANCE_DOMAIN/api/webhooks/livekit

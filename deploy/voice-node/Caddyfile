@@ -1,0 +1,9 @@
+# TLS termination for the LiveKit signaling endpoint. Clients connect to wss://NODE_DOMAIN,
+# Caddy proxies to the local LiveKit HTTP/WS port (7880). Auto HTTPS via Let's Encrypt.
+{
+	email {$ACME_EMAIL}
+}
+
+{$NODE_DOMAIN} {
+	reverse_proxy 127.0.0.1:7880
+}
