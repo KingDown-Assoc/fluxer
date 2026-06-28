@@ -31,6 +31,7 @@ Fixes/features landed before the official ones. Drop them once upstream ships th
 | Patch | File(s) | Why | Upstream tracking | Status |
 |---|---|---|---|---|
 | KLIPY embed + gif error handling | `fluxer_unfurl/src/resolvers/klipy.rs`, `fluxer_api/src/api/gif/*`, `NatsUnfurlerService.ts` | Resolve KLIPY embeds via the KLIPY API (direct fetch blocked by Cloudflare); return 503 instead of 500 on gif provider failure | none | `pending` |
+| Gateway: remove erlcass from OTP app | `fluxer_gateway/src/fluxer_gateway.app.src` | Self-hosting has no Cassandra; erlcass in the app deps crashes the gateway on boot. Cherry-picked from upstream `4.99-pizza` (`110b3a75`) | upstream `4.99-pizza` has it, `main` does not yet | `pending` |
 
 ## 2. Commit convention (ahead-of-upstream patches)
 

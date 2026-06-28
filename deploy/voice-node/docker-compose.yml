@@ -1,0 +1,33 @@
+name: fluxer-voice-node
+
+# Standalone Fluxer voice node (LiveKit). A member runs this to host a regional voice server.
+# It never touches the instance backbone (no Postgres, no NATS, no Valkey). The instance API
+# talks to this node over HTTPS using the api_key/api_secret set in livekit.yaml, and this node
+# posts webhooks back to the instance. Register it on the instance via the admin API (see README.md).
+#
+# Host networking is used because LiveKit needs direct access to media ports for best quality.
+
+services:
+  livekit:
+    image: livekit/livekit-server:v1.12.0
+    restart: unless-stopped
+    network_mode: host
+    command: ["--config", "/etc/livekit.yaml"]
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml:ro
+
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      NODE_DOMAIN: ${NODE_DOMAIN:?set NODE_DOMAIN in .env}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  caddy-data:
+  caddy-config:
