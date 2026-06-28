@@ -25,7 +25,7 @@ Fixes/features landed before the official ones. Drop them once upstream ships th
 
 | Patch | File(s) | Why | Upstream tracking | Status |
 |---|---|---|---|---|
-| _(example)_ Fix crash X | `path/...` | fixes ... | `fluxerapp/fluxer#NNNN` or "none" | `pending` / `superseded` |
+| KLIPY embed + gif error handling | `fluxer_unfurl/src/resolvers/klipy.rs`, `fluxer_api/src/api/gif/*`, `NatsUnfurlerService.ts` | Resolve KLIPY embeds via the KLIPY API (direct fetch blocked by Cloudflare); return 503 instead of 500 on gif provider failure | none | `pending` |
 
 ## 2. Commit convention (ahead-of-upstream patches)
 
